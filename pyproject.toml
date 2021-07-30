@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "darbiadev-manageorders"
-version = "0.1.0"
+version = "0.2.0"
 description = "darbiadev-manageorders"
 authors = ["Bradley Reynolds <bradley.reynolds@darbia.dev>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://gitlab.com/darbia/darbiadev-manageorders"
-documentation = "https://darbia.gitlab.io/darbiadev-manageorders"
+repository = "https://github.com/DarbiaDev/darbiadev-manageorders"
+documentation = "https://darbiadev.github.io/darbiadev-manageorders/"
 
 [tool.poetry.dependencies]
 python = "^3.9"
