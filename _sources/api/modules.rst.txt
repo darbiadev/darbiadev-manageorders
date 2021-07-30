@@ -1,0 +1,7 @@
+darbiadev_manageorders
+======================
+
+.. toctree::
+   :maxdepth: 4
+
+   darbiadev_manageorders

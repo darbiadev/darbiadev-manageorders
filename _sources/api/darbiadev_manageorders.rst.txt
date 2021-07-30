@@ -1,0 +1,18 @@
+darbiadev\_manageorders package
+===============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   darbiadev_manageorders.lib
+
+Module contents
+---------------
+
+.. automodule:: darbiadev_manageorders
+   :members:
+   :undoc-members:
+   :show-inheritance:

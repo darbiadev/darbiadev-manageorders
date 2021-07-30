@@ -1,0 +1,21 @@
+darbiadev\_manageorders.lib package
+===================================
+
+Submodules
+----------
+
+darbiadev\_manageorders.lib.manage\_orders module
+-------------------------------------------------
+
+.. automodule:: darbiadev_manageorders.lib.manage_orders
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: darbiadev_manageorders.lib
+   :members:
+   :undoc-members:
+   :show-inheritance:
