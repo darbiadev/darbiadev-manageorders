@@ -1,65 +1,93 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""Configuration file for the Sphinx documentation builder.
 
-# -- Path setup --------------------------------------------------------------
+For the full list of built-in configuration values, see the documentation:
+https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
+from importlib.metadata import metadata
 
-import os
-import sys
-import toml
-
-sys.path.insert(0, os.path.abspath('../..'))
-
-# -- Project information -----------------------------------------------------
-
-project = 'darbiadev-manageorders'
-copyright = '2021, Bradley Reynolds'
-author = 'Bradley Reynolds'
-
-# The full version, including alpha/beta/rc tags
-release = toml.load('../../pyproject.toml')['tool']['poetry']['version']
-
-# -- General configuration ---------------------------------------------------
+project_metadata = metadata("darbiadev-manageorders")
+project: str = project_metadata["Name"]
+release: str = project_metadata["Version"]
+REPO_LINK: str = project_metadata["Project-URL"].replace("repository, ", "")
+copyright: str = "Darbia"  # noqa: A001
+author: str = "Bradley Reynolds"
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.coverage',
-    'sphinx.ext.napoleon',
-    'sphinxcontrib.apidoc',
-    'sphinx.ext.viewcode',
-    'sphinx_rtd_theme'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.linkcode",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
+    "autoapi.extension",
+    "releases",
 ]
 
-apidoc_module_dir = '../../darbiadev_manageorders'
+autoapi_type: str = "python"
+autoapi_dirs: list[str] = ["../../src"]
 
-autoapi_type = 'python'
-autoapi_dirs = [apidoc_module_dir]
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path: list[str] = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns: list[str] = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-html_theme = 'sphinx_rtd_theme'
+html_theme: str = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path: list[str] = ["_static"]
+
+releases_github_path = REPO_LINK.removeprefix("https://github.com/")
+releases_release_uri = f"{REPO_LINK}/releases/tag/v%s"
+
+
+def linkcode_resolve(domain: str, info: dict) -> str:
+    """linkcode_resolve."""
+    if domain != "py":
+        return None
+    if not info["module"]:
+        return None
+
+    import importlib  # noqa: PLC0415
+    import inspect  # noqa: PLC0415
+    import types  # noqa: PLC0415
+
+    mod = importlib.import_module(info["module"])
+
+    val = mod
+    for k in info["fullname"].split("."):
+        val = getattr(val, k, None)
+        if val is None:
+            break
+
+    filename = info["module"].replace(".", "/") + ".py"
+
+    if isinstance(
+        val,
+        types.ModuleType
+        | types.MethodType
+        | types.FunctionType
+        | types.TracebackType
+        | types.FrameType
+        | types.CodeType,
+    ):
+        try:
+            lines, first = inspect.getsourcelines(val)
+            last = first + len(lines) - 1
+            filename += f"#L{first}-L{last}"
+        except (OSError, TypeError):
+            pass
+
+    return f"{REPO_LINK}/blob/main/src/{filename}"

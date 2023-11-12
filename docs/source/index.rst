@@ -1,20 +1,27 @@
-.. darbiadev-manageorders documentation master file, created by
-   sphinx-quickstart on Wed Jul 28 11:57:31 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+darbiadev-manageorders
+===============
 
-Welcome to darbiadev-manageorders's documentation!
-==================================================
+A wrapper for ManageOrders's API
+
+Module Index
+------------
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
+   autoapi/index
 
+.. toctree::
+   :caption: Other:
+   :hidden:
 
-Indices and tables
-==================
+   changelog
+   history
+
+Extras
+------
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+* :doc:`changelog`
+* :doc:`history`
