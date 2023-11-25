@@ -48,3 +48,8 @@ ignore = [
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
+
+[tool.coverage.run]
+source = [
+    "darbiadev_manageorders",
+]
